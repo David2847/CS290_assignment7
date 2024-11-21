@@ -47,16 +47,25 @@ async function findUsers(filter) {
 async function updateUser(filter, updateObject) {
     // console.log(updateObject);
     const result = await User.updateOne(filter, { $set: updateObject});
-
-    // result will tell us whether it succeeded
-
-    console.log(result);
     // get the updated document
     const query = User.find(filter);
     return query.exec();
 }
 
+async function deleteByQuery(filter) {
+    const result = await User.deleteMany(filter);
+    console.log(result);
+    return result.deletedCount;
+}
+
+const deleteById = async (_id) => {
+    const result = await User.deleteOne({ _id: _id });
+    return result.deletedCount;
+  }
+
 export {connect,
         createEntry,
         findUsers,
-        updateUser};
+        updateUser,
+        deleteByQuery,
+        deleteById};
